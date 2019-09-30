@@ -384,7 +384,7 @@
 		<maven-surefire-plugin.vertsion>2.22.1</maven-surefire-plugin.vertsion>
 		<maven-nexus-staging-plugin.version>1.6.8</maven-nexus-staging-plugin.version>
 		<commons-io.version>2.6</commons-io.version>
-		<fastjson.version>1.2.57</fastjson.version>
+		<fastjson.version>1.2.61</fastjson.version>
 		<jython.version>2.7.0</jython.version>
 
 	</properties>
