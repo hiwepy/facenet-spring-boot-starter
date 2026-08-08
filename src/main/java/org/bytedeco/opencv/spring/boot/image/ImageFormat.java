@@ -17,46 +17,57 @@ package org.bytedeco.opencv.spring.boot.image;
 
 
 /**
- * 图像格式
+ * Pixel format constants describing how image samples are laid out in memory.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
  */
 public enum ImageFormat {
     /**
-     * 图像格式，NV21格式，8-bit Y 通道，8-bit 2x2 采样 V 与 U 分量交织通道
+     * NV21 format: 8-bit Y plane followed by an interleaved 2x2 subsampled V/U plane.
      */
     CP_PAF_NV21(2050),
     /**
-     * 图像格式，NV12格式，8-bit Y 通道，8-bit 2x2 采样 U 与 V 分量交织通道
+     * NV12 format: 8-bit Y plane followed by an interleaved 2x2 subsampled U/V plane.
      */
     CP_PAF_NV12(2049),
     /**
-     * 图像格式，I420格式，8-bit Y 通道，8-bit 2x2 采样 U 通道，8-bit 2x2 采样 V 通道
+     * I420 format: 8-bit Y plane followed by separate 2x2 subsampled U and V planes.
      */
     CP_PAF_I420(1537),
     /**
-     * 图像格式，YUYV格式，YUV 分量交织，V 与 U 分量 2x1 采样，按 Y0, U0, Y1, V0 字节序排布
+     * YUYV format: packed YUV with U and V subsampled 2x1 horizontally, laid out as Y0, U0, Y1, V0.
      */
     CP_PAF_YUYV(1281),
     /**
-     * 图像格式，BGR格式，RGB 分量交织，按 B, G, R, B 字节序排布
+     * BGR24 format: packed RGB with components ordered B, G, R.
      */
     CP_PAF_BGR24(513),
     /**
-     * 图像格式，BGR格式，RGB 分量交织，按 B, G, R, B 字节序排布
+     * Grayscale format: single 8-bit luma channel per pixel.
      */
     CP_PAF_GRAY(1793),
 
     /**
-     * 图像格式，BGR格式，RGB 分量交织，按 B, G, R, B 字节序排布
+     * 16-bit unsigned depth format.
      */
     CP_PAF_DEPTH_U16(3074);
 
 
     private int value;
 
+    /**
+     * Creates a format constant with the given numeric identifier.
+     * @param value the numeric identifier of the format
+     */
     ImageFormat(int value) {
         this.value = value;
     }
 
+    /**
+     * Returns the numeric identifier of this format.
+     * @return the numeric identifier
+     */
     public int getValue() {
         return value;
     }

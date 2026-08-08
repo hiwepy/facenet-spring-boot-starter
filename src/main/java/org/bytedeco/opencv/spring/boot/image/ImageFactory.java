@@ -25,9 +25,22 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Utility for loading images from files, byte arrays or streams and converting them
+ * into the {@link ImageInfo} representation (RGB or grayscale) consumed by the face
+ * recognition pipeline.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
+ */
 public class ImageFactory {
 
 
+    /**
+     * Reads an RGB image from the given file and converts it into image info.
+     * @param file the image file to read
+     * @return the image info, or {@code null} if the file is {@code null} or cannot be read
+     */
     public static ImageInfo getRGBData(File file) {
         if (file == null)
             return null;
@@ -43,6 +56,11 @@ public class ImageFactory {
         return imageInfo;
     }
 
+    /**
+     * Reads a grayscale image from the given file and converts it into image info.
+     * @param file the image file to read
+     * @return the grayscale image info, or {@code null} if the file is {@code null} or cannot be read
+     */
     public static ImageInfo getGrayData(File file) {
         if (file == null)
             return null;
@@ -58,12 +76,22 @@ public class ImageFactory {
         return imageInfo;
     }
 
+    /**
+     * Reads an RGB image from the given byte array.
+     * @param bytes the raw image bytes
+     * @return the image info, or {@code null} if the input is {@code null}
+     */
     public static ImageInfo getRGBData(byte[] bytes) {
         if (bytes == null)
             return null;
         return getRGBData(new ByteArrayInputStream(bytes));
     }
 
+    /**
+     * Reads a grayscale image from the given byte array.
+     * @param bytes the raw image bytes
+     * @return the grayscale image info, or {@code null} if the input is {@code null}
+     */
     public static ImageInfo getGrayData(byte[] bytes) {
         if (bytes == null)
             return null;
@@ -71,6 +99,11 @@ public class ImageFactory {
     }
 
 
+    /**
+     * Reads an RGB image from the given input stream and closes the stream afterwards.
+     * @param input the input stream to read from
+     * @return the image info, or {@code null} if the input is {@code null} or cannot be read
+     */
     public static ImageInfo getRGBData(InputStream input) {
         if (input == null)
             return null;
@@ -94,6 +127,11 @@ public class ImageFactory {
         return imageInfo;
     }
 
+    /**
+     * Reads a grayscale image from the given input stream and closes the stream afterwards.
+     * @param input the input stream to read from
+     * @return the grayscale image info, or {@code null} if the input is {@code null} or cannot be read
+     */
     public static ImageInfo getGrayData(InputStream input) {
         if (input == null)
             return null;
@@ -118,6 +156,12 @@ public class ImageFactory {
     }
 
 
+    /**
+     * Converts a buffered image into RGB {@link ImageInfo}, centring the image on
+     * 4-pixel boundaries and producing a BGR24 byte buffer.
+     * @param image the source buffered image
+     * @return the converted image info
+     */
     public static ImageInfo bufferedImage2ImageInfo(BufferedImage image) {
         ImageInfo imageInfo = new ImageInfo();
         int width = image.getWidth();
@@ -148,6 +192,12 @@ public class ImageFactory {
         return imageInfo;
     }
 
+    /**
+     * Converts a buffered image into grayscale {@link ImageInfo}, centring the image
+     * on 4-pixel boundaries and producing a single-channel byte buffer.
+     * @param image the source buffered image
+     * @return the converted grayscale image info
+     */
     public static ImageInfo bufferedImage2GrayImageInfo(BufferedImage image) {
         ImageInfo imageInfo = new ImageInfo();
         int width = image.getWidth();
@@ -166,6 +216,14 @@ public class ImageFactory {
     }
 
 
+    /**
+     * Converts an ARGB pixel array into a packed grayscale byte array using the
+     * BT.601 luma weighting.
+     * @param argb the source ARGB pixel array
+     * @param width the image width
+     * @param height the image height
+     * @return the grayscale byte array
+     */
     private static byte[] rgbToGray(int[] argb, int width, int height) {
 
         int yIndex = 0;
@@ -187,15 +245,17 @@ public class ImageFactory {
     }
 
 
-    /**
-     * 将图像中需要截取的Rect向外扩张一倍，若扩张一倍会溢出，则扩张到边界，若Rect已溢出，则收缩到边界
-     *
-     * @param width   图像宽度
-     * @param height  图像高度
-     * @param srcRect 原Rect
-     * @return 调整后的Rect
-     */
-    public static Rect getBestRect(int width, int height, Rect srcRect) {
+	/**
+	 * Expands the cropping rectangle outwards by half of its height; if that would
+	 * overflow the image bounds the rectangle is expanded only to the boundary, and if
+	 * the source rectangle already overflows it is shrunk back to the boundary.
+	 *
+	 * @param width   the image width
+	 * @param height  the image height
+	 * @param srcRect the source rectangle
+	 * @return the adjusted rectangle, or {@code null} if the source is {@code null}
+	 */
+	public static Rect getBestRect(int width, int height, Rect srcRect) {
         if (srcRect == null) {
             return null;
         }

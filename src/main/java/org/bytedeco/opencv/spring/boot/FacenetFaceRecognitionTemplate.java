@@ -40,21 +40,34 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * TODO
- * @author [@Loong Wan](https://github.com/loong10k)
+ * Template providing OpenCV-based face detection, image smoothing and face matching
+ * operations built on top of a Haar cascade classifier.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
  */
 public class FacenetFaceRecognitionTemplate {
 
 	private static final Logger logger = LoggerFactory.getLogger(FacenetFaceRecognitionTemplate.class);
 	private CascadeClassifier faceDetector;
 	private FacenetFaceRecognitionProperties properties;
-	
+
+	/**
+	 * Creates a new face recognition template with the given detector and properties.
+	 * @param faceDetector the cascade classifier used to detect faces
+	 * @param properties the face recognition properties
+	 */
 	public FacenetFaceRecognitionTemplate(CascadeClassifier faceDetector,
 			FacenetFaceRecognitionProperties properties) {
 		this.faceDetector = faceDetector;
 		this.properties = properties;
 	}
 
+	/**
+	 * Applies a smoothing filter to the image at the given path and overwrites the
+	 * original file with the result.
+	 * @param path the path of the image file to smooth
+	 */
 	public void smooth(String path) {
         IplImage image = opencv_imgcodecs.cvLoadImage(path);
         if (image != null) {
@@ -63,11 +76,25 @@ public class FacenetFaceRecognitionTemplate {
         	opencv_core.cvReleaseImage(image);
         }
     }
-	
+
+	/**
+	 * Detects faces in the image located at the given path.
+	 * @param imagePath the path of the image to analyse
+	 * @return a JSON object describing the detection result
+	 */
 	public JSONObject detect(String imagePath) {
 		return detect(new File(imagePath));
 	}
-	
+
+	/**
+	 * Detects faces in the image represented by the given byte array by first writing
+	 * it to a temporary file (required because the native library cannot read directly
+	 * from a packaged archive).
+	 * @param imageBytes the raw image bytes
+	 * @param filename the original filename, used to derive the file extension
+	 * @return a JSON object describing the detection result
+	 * @throws Exception if the temporary file cannot be created or written
+	 */
 	public JSONObject detect(byte[] imageBytes, String filename) throws Exception {
 		// 创建临时文件，因为boot打包后无法读取文件内的内容
     	File tempDir = new File(getProperties().getTemp());
@@ -76,52 +103,74 @@ public class FacenetFaceRecognitionTemplate {
     		tempDir.setWritable(true);
     		tempDir.mkdir();
     	}
-    	
+
     	File imageFile = new File(tempDir, UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(filename));
     	try (InputStream source = new ByteArrayInputStream(imageBytes);){
     		FileUtils.copyInputStreamToFile(source, imageFile);
     		return detect(imageFile);
 		}
-    	
+
 	}
-	
+
+	/**
+	 * Detects faces in the given image file using the cascade classifier.
+	 * @param imageFile the image file to analyse
+	 * @return a JSON object describing the detection result, or {@code null} when the
+	 * number of detected faces is not exactly one
+	 */
 	public JSONObject detect(File imageFile) {
-		
+
 		JSONObject result = new JSONObject();
-		
+
 		try {
-			
+
 			logger.info("人脸检测开始……");
-		    
+
 			if (imageFile == null || !imageFile.exists()) {
 				result.put("error_code", 500);
 				result.put("error_msg", "");
 				return result;
 	        }
-			
+
 			// 读取创建的图片tempFile
 	        Mat image = Imgcodecs.imread(imageFile.getPath());
 			// 进行人脸检测
 	        MatOfRect faceDetections = new MatOfRect();
 	        faceDetector.detectMultiScale(image, faceDetections);
-	        
+
 	        Rect[] rects = faceDetections.toArray();
 	        if (rects == null || rects.length == 0 || rects.length > 1) {
 	            return null;
 	        }
-	        
+
 	        logger.info(String.format("检测到人脸： %s", rects.length));
-	        
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Compares two images given by path and returns a similarity score.
+	 * @param imagePath1 the path of the first image
+	 * @param imagePath2 the path of the second image
+	 * @return a JSON object containing the match score
+	 */
 	public JSONObject match(String imagePath1, String imagePath2) {
 		return match(new File(imagePath1), new File(imagePath2));
 	}
-	
+
+	/**
+	 * Compares two images supplied as byte arrays by first writing them to temporary
+	 * files (required because the native library cannot read directly from a packaged
+	 * archive).
+	 * @param imageBytes1 the raw bytes of the first image
+	 * @param imageBytes2 the raw bytes of the second image
+	 * @param filename the original filename, used to derive the file extension
+	 * @return a JSON object containing the match score
+	 * @throws Exception if the temporary files cannot be created or written
+	 */
 	public JSONObject match(byte[] imageBytes1, byte[] imageBytes2, String filename) throws Exception {
 		// 创建临时文件，因为boot打包后无法读取文件内的内容
     	File tempDir = new File(getProperties().getTemp());
@@ -142,10 +191,17 @@ public class FacenetFaceRecognitionTemplate {
     	
 	}
 	
+	/**
+	 * Compares two image files by computing and normalising their grayscale
+	 * histograms and returning a correlation-based similarity score.
+	 * @param imageFile1 the first image file
+	 * @param imageFile2 the second image file
+	 * @return a JSON object containing the similarity {@code score}
+	 */
 	public JSONObject match(File imageFile1, File imageFile2) {
-		
+
 		JSONObject result = new JSONObject();
-		
+
 		try {
 			
 
@@ -193,10 +249,18 @@ public class FacenetFaceRecognitionTemplate {
 		return result;
 	}
 	
+	/**
+	 * Returns the cascade classifier used to detect faces.
+	 * @return the face detector
+	 */
 	public CascadeClassifier getFaceDetector() {
 		return faceDetector;
 	}
-	
+
+	/**
+	 * Returns the face recognition properties.
+	 * @return the properties
+	 */
 	public FacenetFaceRecognitionProperties getProperties() {
 		return properties;
 	}

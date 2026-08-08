@@ -16,35 +16,33 @@
 package org.bytedeco.opencv.spring.boot.image;
 
 /**
- * 人脸位置信息类
+ * Represents the position of a detected face as an axis-aligned rectangle.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
  */
 public class Rect {
-    /**
-     * 人脸矩形的最左边
-     */
+    /** Left coordinate of the face rectangle. */
     public int left;
-    /**
-     * 人脸矩形的最上边
-     */
+    /** Top coordinate of the face rectangle. */
     public int top;
-    /**
-     * 人脸矩形的最右边
-     */
+    /** Right coordinate of the face rectangle. */
     public int right;
-    /**
-     * 人脸矩形的最下边
-     */
+    /** Bottom coordinate of the face rectangle. */
     public int bottom;
 
+    /**
+     * Creates an empty rectangle with all coordinates initialised to zero.
+     */
     public Rect() {
     }
 
     /**
-     * 根据传入的上下左右四个值创建一个人脸位置信息
-     * @param left  人脸矩形的最左边
-     * @param top   人脸矩形的最上边
-     * @param right 人脸矩形的最右边
-     * @param bottom  人脸矩形的最下边
+     * Creates a rectangle from the given left, top, right and bottom bounds.
+     * @param left  the left coordinate
+     * @param top   the top coordinate
+     * @param right the right coordinate
+     * @param bottom the bottom coordinate
      */
     public Rect(int left, int top, int right, int bottom) {
         this.left = left;
@@ -54,8 +52,8 @@ public class Rect {
     }
 
     /**
-     * 根据传入的人脸矩形创建一个新的人脸矩形对象，新创建的对象为传入对象的深拷贝
-     * @param r 人脸矩形信息对象
+     * Creates a new rectangle as a deep copy of the given source rectangle.
+     * @param r the source rectangle, may be {@code null}
      */
     public Rect(Rect r) {
         if (r == null) {
@@ -70,8 +68,8 @@ public class Rect {
     }
 
     /**
-     *
-     * @return  格式化的人脸位置信息
+     * Returns a formatted representation of this rectangle.
+     * @return a formatted rectangle string
      */
     public String toString() {
         StringBuilder sb = new StringBuilder(32);
@@ -87,34 +85,66 @@ public class Rect {
         return sb.toString();
     }
 
+    /**
+     * Returns the left coordinate.
+     * @return the left coordinate
+     */
     public int getLeft() {
         return left;
     }
 
+    /**
+     * Sets the left coordinate.
+     * @param left the left coordinate
+     */
     public void setLeft(int left) {
         this.left = left;
     }
 
+    /**
+     * Returns the top coordinate.
+     * @return the top coordinate
+     */
     public int getTop() {
         return top;
     }
 
+    /**
+     * Sets the top coordinate.
+     * @param top the top coordinate
+     */
     public void setTop(int top) {
         this.top = top;
     }
 
+    /**
+     * Returns the right coordinate.
+     * @return the right coordinate
+     */
     public int getRight() {
         return right;
     }
 
+    /**
+     * Sets the right coordinate.
+     * @param right the right coordinate
+     */
     public void setRight(int right) {
         this.right = right;
     }
 
+    /**
+     * Returns the bottom coordinate.
+     * @return the bottom coordinate
+     */
     public int getBottom() {
         return bottom;
     }
 
+    /**
+     * Sets the bottom coordinate.
+     * @param bottom the bottom coordinate
+     */
     public void setBottom(int bottom) {
         this.bottom = bottom;
     }

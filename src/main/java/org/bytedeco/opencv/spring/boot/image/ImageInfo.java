@@ -19,13 +19,24 @@ import java.io.InputStream;
 
 import lombok.Data;
 
+/**
+ * Container holding the raw pixel data and metadata of a decoded image.
+ *
+ * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @since 1.0.0
+ */
 @Data
 public class ImageInfo {
-	
+
+	/** Raw pixel data of the image. */
 	private byte[] imageData;
+    /** Optional stream representation of the image. */
     private InputStream imageStream;
+    /** Image width in pixels. */
     private Integer width;
+    /** Image height in pixels. */
     private Integer height;
+    /** Pixel format of {@link #imageData}. */
     private ImageFormat imageFormat;
 
 }
