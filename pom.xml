@@ -72,6 +72,13 @@
                         <target>${java.version}</target>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <maxmem>512M</maxmem>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
                     </configuration>
                 </plugin>
                 
@@ -303,6 +310,11 @@
                         </goals>
                         <configuration>
                             <haltOnFailure>true</haltOnFailure>
+                            <excludes>
+                                <!-- Exclude classes that depend on native OpenCV libraries -->
+                                <exclude>**/FacenetFaceRecognitionAutoConfiguration.class</exclude>
+                                <exclude>**/FacenetFaceRecognitionTemplate.class</exclude>
+                            </excludes>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
@@ -507,6 +519,8 @@
 
                 <commons-io.version>2.22.0</commons-io.version>
                 <slf4j.version>2.0.18</slf4j.version>
+                <javacpp.version>1.5.10</javacpp.version>
+                <opencv.version>4.9.0-1.5.10</opencv.version>
     </properties>
 
     <dependencies>
@@ -596,17 +610,31 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!-- For Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- For JavaCPP -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+            <version>${javacpp.version}</version>
+        </dependency>
+
+        <!-- For OpenCV (JavaCPP bindings) -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+            <version>${opencv.version}</version>
+        </dependency>
+
             <!-- For JUnit -->
             <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- For Commons IO -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
             <scope>test</scope>
         </dependency>
             <!-- For JUnit Jupiter -->
@@ -634,7 +662,6 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
