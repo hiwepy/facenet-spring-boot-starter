@@ -19,7 +19,7 @@ package org.bytedeco.opencv.spring.boot.image;
 /**
  * Pixel format constants describing how image samples are laid out in memory.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public enum ImageFormat {

@@ -18,7 +18,7 @@ package org.bytedeco.opencv.spring.boot.image;
 /**
  * Represents the position of a detected face as an axis-aligned rectangle.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class Rect {

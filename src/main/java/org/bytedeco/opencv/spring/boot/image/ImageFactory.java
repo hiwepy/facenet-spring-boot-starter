@@ -30,7 +30,7 @@ import java.io.InputStream;
  * into the {@link ImageInfo} representation (RGB or grayscale) consumed by the face
  * recognition pipeline.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class ImageFactory {

@@ -20,7 +20,7 @@ import org.springframework.core.io.Resource;
  * classifier face detector together with a {@link FacenetFaceRecognitionTemplate}
  * that provides face detection and matching operations.</p>
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @Configuration

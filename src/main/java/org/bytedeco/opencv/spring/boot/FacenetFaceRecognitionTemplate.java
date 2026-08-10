@@ -43,7 +43,7 @@ import com.alibaba.fastjson.JSONObject;
  * Template providing OpenCV-based face detection, image smoothing and face matching
  * operations built on top of a Haar cascade classifier.
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 public class FacenetFaceRecognitionTemplate {

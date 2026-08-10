@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * <p>Controls whether the face recognition auto-configuration is enabled and where
  * intermediate image and classifier files are written.</p>
  *
- * @author <a href="https://github.com/loong10k">@Loong Wan</a>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 1.0.0
  */
 @ConfigurationProperties(FacenetFaceRecognitionProperties.PREFIX)
