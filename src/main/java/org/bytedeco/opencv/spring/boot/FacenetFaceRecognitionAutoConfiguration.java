@@ -26,6 +26,11 @@ import org.springframework.core.io.Resource;
 @Configuration
 @ConditionalOnProperty(prefix = FacenetFaceRecognitionProperties.PREFIX, value = "enabled", havingValue = "true")
 @EnableConfigurationProperties({ FacenetFaceRecognitionProperties.class })
+/**
+ * <p>Auto-configuration for FacenetFaceRecognitionAutoConfiguration.</p>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
+ */
 public class FacenetFaceRecognitionAutoConfiguration {
 
 	@Value("classpath:haarcascades/haarcascade_frontalface_alt.xml")
@@ -46,6 +51,11 @@ public class FacenetFaceRecognitionAutoConfiguration {
 	 * @throws IOException if the classifier resource cannot be copied to disk
 	 */
     @Bean
+    /**
+     * <p>Face detector.</p>
+     * @param properties
+     * @return the result
+     */
     public CascadeClassifier faceDetector(FacenetFaceRecognitionProperties properties) throws IOException {
     	// 创建临时文件，因为boot打包后无法读取文件内的内容
     	File tempDir = new File(properties.getTemp());

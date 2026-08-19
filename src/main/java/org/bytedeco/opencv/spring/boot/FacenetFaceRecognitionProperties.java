@@ -28,6 +28,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @since 1.0.0
  */
 @ConfigurationProperties(FacenetFaceRecognitionProperties.PREFIX)
+/**
+ * <p>Auto-configuration for FacenetFaceRecognitionProperties.</p>
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
+ */
 public class FacenetFaceRecognitionProperties {
 
 	/** Configuration property prefix for OpenCV face recognition options. */
